@@ -1,0 +1,23 @@
+package com.example.model;
+
+import java.time.LocalTime;
+import java.util.UUID;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "books")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class Book {
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean status=false;
+
+    @Column(nullable = false, name = "time_reserved")
+    private LocalTime time;
+
+}
