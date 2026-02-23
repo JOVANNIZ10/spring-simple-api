@@ -2,6 +2,8 @@ package com.example.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Entity
@@ -10,6 +12,9 @@ import java.util.UUID;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ArrayList<Book> books;
 
     @Column(nullable = false)
     private String name;
