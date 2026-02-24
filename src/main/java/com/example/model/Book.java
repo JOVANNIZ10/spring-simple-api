@@ -28,4 +28,7 @@ public class Book {
 
     @Column(nullable = false, name = "time_reserved")
     private LocalTime time;
+
+    @Column(nullable = false)
+    private int seatsReserved;
 }
