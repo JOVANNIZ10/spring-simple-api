@@ -3,6 +3,7 @@ package com.example.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -21,4 +22,15 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    public boolean bookExists(String from, String to, LocalDateTime time) {
+        for(Book book: books){
+            if(book.getRide().getOrigin().equals(from) && book.getRide().getDestination().equals(to) && book.getRide().getTime().equals(time)){
+                return true;
+
+            }
+
+        }
+        return false;
+    }
 }
