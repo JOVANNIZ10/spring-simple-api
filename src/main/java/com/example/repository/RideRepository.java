@@ -9,4 +9,5 @@ import com.example.model.Ride;
 
 public interface RideRepository extends JpaRepository <Ride, UUID> {
     Optional <Ride> findAllUserRides (UUID userId); 
+    Optional <Ride> findRideByID (UUID rideID);
 }
