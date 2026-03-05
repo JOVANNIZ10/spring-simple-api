@@ -1,12 +1,13 @@
 package com.example.dto;
 
-import org.hibernate.validator.constraints.UUID;
+import java.time.LocalDateTime;
+
+import java.util.UUID;
 
 public record RideResponse (
     UUID id,
     String origin,
     String destination,
-    String dateTime
-) {
-    
+    LocalDateTime dateTime
+) { 
 }
