@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.BookResponse;
 import com.example.dto.CreateBookRequest;
-import com.example.dto.RideResponse;
-import com.example.dto.UserResponse;
+import com.example.exception.RideNotFoundException;
+import com.example.exception.UserNotFoundException;
+import com.example.mapper.BookMapper;
 import com.example.model.Book;
 import com.example.model.Ride;
 import com.example.model.User;
@@ -22,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookService {
+
+    private final BookMapper bookMapper;
     
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
@@ -29,19 +32,20 @@ public class BookService {
 
     @Transactional
     public BookResponse createBook(UUID userId, UUID rideId, CreateBookRequest req) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")); 
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)); 
 
-        Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RuntimeException("Ride not found"));
+        Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RideNotFoundException(userId));
 
-        Book book = Book.builder().user(user).ride(ride).time(LocalTime.now()).seatsReserved(req.seatsReserved()).build();
-        
-        boolean exists=user.bookExists(ride.getOrigin(), ride.getDestination(), ride.getTime());
+        user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getTime());
 
-        if(exists){
-            throw new RuntimeException("User already has a booking for this ride");
-        }
-        
+        Book book = Book.builder()
+                .user(user)
+                .ride(ride)
+                .seatsReserved(req.seatsReserved())
+                .status(true)
+                .time(LocalTime.now())
+                .build();
         Book savedBook = bookRepository.save(book);
-        return new BookResponse(savedBook.getId(), savedBook.isStatus(), savedBook.getTime(), savedBook.getSeatsReserved(), new RideResponse(ride.getId(), ride.getOrigin(), ride.getDestination(), ride.getTime()), new UserResponse(user.getId(), user.getName(), user.getEmail()));
+        return bookMapper.toBookResponse(savedBook);
     }
 }

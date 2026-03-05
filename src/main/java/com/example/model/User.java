@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.example.exception.BookAlreadyExistsException;
+
 @Entity
 @Table(name = "users")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -23,14 +25,16 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public boolean bookExists(String from, String to, LocalDateTime time) {
+    public void bookExists(UUID rideId, String from, String to, LocalDateTime time) {
+        boolean exists=false;
         for(Book book: books){
             if(book.getRide().getOrigin().equals(from) && book.getRide().getDestination().equals(to) && book.getRide().getTime().equals(time)){
-                return true;
-
+                exists=true;
+                break;
             }
-
         }
-        return false;
+        if(exists){
+            throw new BookAlreadyExistsException(this.id, rideId);
+        }
     }
 }
