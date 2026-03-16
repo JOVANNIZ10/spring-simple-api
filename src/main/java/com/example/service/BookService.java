@@ -34,7 +34,7 @@ public class BookService {
     public BookResponse createBook(UUID userId, UUID rideId, CreateBookRequest req) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)); 
 
-        Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RideNotFoundException(userId));
+        Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RideNotFoundException(rideId));
 
         user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getTime());
 
@@ -45,7 +45,9 @@ public class BookService {
                 .status(true)
                 .time(LocalTime.now())
                 .build();
+
         Book savedBook = bookRepository.save(book);
+
         return bookMapper.toBookResponse(savedBook);
     }
 }

@@ -7,7 +7,9 @@ public record BookResponse(
     UUID id,
     boolean status,
     LocalTime time,
-    RideResponse ride
+    int numberOfSeats,
+    RideResponse ride,
+    UserResponse user
 ) {
     
 }

@@ -23,7 +23,7 @@ public class User {
     private String name;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email; 
 
     public void bookExists(UUID rideId, String from, String to, LocalDateTime time) {
         boolean exists=false;
@@ -34,7 +34,7 @@ public class User {
             }
         }
         if(exists){
-            throw new BookAlreadyExistsException(this.id, rideId);
+            throw new BookAlreadyExistsException(rideId, this.id);
         }
     }
 }

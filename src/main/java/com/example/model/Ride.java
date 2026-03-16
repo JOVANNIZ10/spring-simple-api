@@ -29,4 +29,5 @@ public class Ride {
 
     @Column(nullable = false)
     private int availableSeats;
+
 }

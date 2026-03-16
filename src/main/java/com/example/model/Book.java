@@ -31,4 +31,5 @@ public class Book {
 
     @Column(nullable = false)
     private int seatsReserved;
+    
 }
