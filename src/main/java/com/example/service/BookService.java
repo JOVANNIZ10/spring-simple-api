@@ -38,6 +38,8 @@ public class BookService {
 
         user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getTime());
 
+        
+
         Book book = Book.builder()
                 .user(user)
                 .ride(ride)

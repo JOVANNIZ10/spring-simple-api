@@ -22,4 +22,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleBookAlreadyExists(BookAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+
+    @ExceptionHandler(NotEnoughSeatsException.class)
+    public ResponseEntity<String> handleNotEnoughSeats(NotEnoughSeatsException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }

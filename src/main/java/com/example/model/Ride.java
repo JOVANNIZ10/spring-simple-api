@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.example.exception.NotEnoughSeatsException;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,5 +31,12 @@ public class Ride {
 
     @Column(nullable = false)
     private int availableSeats;
+
+    public void bookSeats(int seats) {
+        if (availableSeats < seats) {
+            throw new NotEnoughSeatsException(this.id);
+        }
+        availableSeats -= seats;
+    }
 
 }
