@@ -1,9 +1,14 @@
 package com.example.dto;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateRideRequest (
     @NotBlank String origin,
     @NotBlank String destination,
-    @NotBlank String time
+    @NotNull LocalDateTime rideDate,
+    @NotEmpty int availableSeats
 ){}

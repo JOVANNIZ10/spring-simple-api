@@ -20,6 +20,10 @@ public class Ride {
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<Book> books;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(nullable = false)
     private String origin;
 
@@ -27,7 +31,7 @@ public class Ride {
     private String destination; 
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime rideDate;
 
     @Column(nullable = false)
     private int availableSeats;

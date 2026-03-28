@@ -1,12 +1,12 @@
 package com.example.service;
 
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dto.CreateUserRequest;
 import com.example.dto.UserResponse;
+import com.example.exception.UserNotFoundException;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 
@@ -37,7 +37,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse getUser(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(id));
         return new UserResponse(user.getId(), user.getName(), user.getEmail());
     }
 

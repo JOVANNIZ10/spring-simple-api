@@ -36,9 +36,9 @@ public class BookService {
 
         Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RideNotFoundException(rideId));
 
-        user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getTime());
+        user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getRideDate());
 
-        
+        ride.bookSeats(req.seatsReserved());
 
         Book book = Book.builder()
                 .user(user)
