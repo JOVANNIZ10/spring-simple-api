@@ -27,4 +27,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNotEnoughSeats(NotEnoughSeatsException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+    @ExceptionHandler(PastRideDateException.class)
+    public ResponseEntity<String> handlePastRideDate(PastRideDateException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+    @ExceptionHandler(RideAlreadyExistsException.class)
+    public ResponseEntity<String> handleRideAlreadyExistsException(RideAlreadyExistsException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }
