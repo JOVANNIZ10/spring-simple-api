@@ -1,38 +1,29 @@
 package com.example.exception;
 
-import org.springframework.http.HttpStatus;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    // Captura las excepciones de negocio
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<String> handleAppException(AppException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
     }
 
-    @ExceptionHandler(RideNotFoundException.class)
-    public ResponseEntity<String> handleRideNotFound(RideNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(BookAlreadyExistsException.class)
-    public ResponseEntity<String> handleBookAlreadyExists(BookAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(NotEnoughSeatsException.class)
-    public ResponseEntity<String> handleNotEnoughSeats(NotEnoughSeatsException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-    @ExceptionHandler(PastRideDateException.class)
-    public ResponseEntity<String> handlePastRideDate(PastRideDateException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-    @ExceptionHandler(RideAlreadyExistsException.class)
-    public ResponseEntity<String> handleRideAlreadyExistsException(RideAlreadyExistsException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    // Captura errores de validación (@Valid)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult()
+          .getFieldErrors()
+          .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+        return ResponseEntity.badRequest().body(errors);
     }
 }

@@ -1,8 +1,10 @@
 package com.example.exception;
 
-public class PastRideDateException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class PastRideDateException extends AppException {
     public PastRideDateException() {
-        super("Ride date cannot be in the past.");
+        super("Ride date cannot be in the past.", HttpStatus.CONFLICT);
     }
     
 }
