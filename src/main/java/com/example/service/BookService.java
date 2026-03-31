@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.time.LocalTime;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
