@@ -31,12 +31,12 @@ public class BookService {
     private final RideRepository rideRepository;
 
     @Transactional
-    public BookResponse createBook(UUID userId, UUID rideId, CreateBookRequest req) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId)); 
+    public BookResponse createBook(CreateBookRequest req) {
+        User user = userRepository.findById(req.userId()).orElseThrow(() -> new UserNotFoundException(req.userId())); 
 
-        Ride ride = rideRepository.findById(rideId).orElseThrow(()-> new RideNotFoundException(rideId));
+        Ride ride = rideRepository.findById(req.rideID()).orElseThrow(()-> new RideNotFoundException(req.rideID()));
 
-        user.bookExists(rideId, ride.getOrigin(),ride.getDestination() ,ride.getRideDate());
+        user.bookExists(req.rideID(), ride.getOrigin(),ride.getDestination() ,ride.getRideDate());
 
         ride.bookSeats(req.seatsReserved());
 
