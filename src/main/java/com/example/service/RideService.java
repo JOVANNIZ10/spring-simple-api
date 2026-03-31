@@ -2,8 +2,6 @@ package com.example.service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.CreateRideRequest;
@@ -38,8 +36,8 @@ public class RideService {
     }
 
     @Transactional
-    public RideResponse createRide(UUID userId ,CreateRideRequest req) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+    public RideResponse createRide(CreateRideRequest req) {
+        User user = userRepository.findById(req.userid()).orElseThrow(() -> new UserNotFoundException(req.userid()));
 
         isDateInThePast(req.rideDate());
 
